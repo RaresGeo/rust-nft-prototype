@@ -1,11 +1,14 @@
-Status Message
+Foreword
 ==============
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/near-examples/rust-status-message)
+This project is built on the NEP-171 non fungible token standard very helpfully provided through the near sdk. Virtually all functionality is built in; as a developer you must only learn how it all goes together and how to interact with it.
 
-<!-- MAGIC COMMENT: DO NOT DELETE! Everything above this line is hidden on NEAR Examples page -->
+Starting out, I had no prior knowledge of Rust aside from the fact that it existed. After working on this, not much has changed. I believe this task was meant both as a learning experience and as a way of proving that I can learn; However, I believe it would have been foolhardy and frankly pointless to implement every functionality on my own rather than adhere to the standards. Doing so meant I had to more or less reuse code from the tutorial and provided materials on the documentation, so at first sight it might seem as though the entire project is a simple copy paste. While this was a learning experience, it didn't make me think outside of the box nor did it challenge me and push me to learn more about Rust.
+I wouldn't consider it a triviality but it certainly didn't excite me, I would have much preferred to work on something such as a multi signature wallet and have to implement everything myself. 
 
-This smart contract saves and records the status messages of NEAR accounts that call it.
+Having said all of that, this barely scratches the surface and there was a lot I could have expanded on... but most of that would have hardly been near specific, simply front end stuff and other visualisation tools or ways of actually creating an NFT rather than displaying metadata.
+
+Enough of the excuses, here's how to build the project:
 
 Windows users: please visit the [Windows-specific README file](README-Windows.md).
 
@@ -37,6 +40,10 @@ curl https://sh.rustup.rs -sSf | sh
 Install dependencies
 
 ```
+yarn
+```
+or
+```
 npm install
 ```
 
@@ -45,6 +52,7 @@ To run this project locally:
 
 1. Prerequisites: Make sure you have Node.js ≥ 12 installed (https://nodejs.org), then use it to install yarn: `npm install --global yarn` (or just `npm i -g yarn`)
 2. Run the local development server: `yarn && yarn dev` (see package.json for a full list of scripts you can run with yarn)
+Note that the dev deployment process involves using `. neardev/dev-account.env`, this may not be available depending on the operating system you are using.
 Now you'll have a local development environment backed by the NEAR TestNet! Running yarn dev will tell you the URL you can visit in your browser to see the app.
 
 ## Building this contract
@@ -96,96 +104,7 @@ Build the frontend:
 npm start
 ```
 
-If all is successful the app should be live at `localhost:1234`!
-
-### Quickest deploy
-Build and deploy this smart contract to an development account. This development account will be created automatically and is not intended to be permanent. Please see the "Standard deploy" section for creating a more personalized account to deploy to.
-
-```bash
-near dev-deploy --wasmFile res/nft_prototype.wasm --helperUrl https://near-contract-helper.onrender.com
-```
-
-Behind the scenes, this is creating an account and deploying a contract to it. On the console, notice a message like:
-
->Done deploying to dev-1234567890123
-
-In this instance, the account is `dev-1234567890123`. A file has been created containing the key to the account, located at `neardev/dev-account`. To make the next few steps easier, we're going to set an environment variable containing this development account id and use that when copy/pasting commands.
-Run this command to the environment variable:
-
-```bash
-source neardev/dev-account.env
-```
-
-You can tell if the environment variable is set correctly if your command line prints the account name after this command:
-```bash
-echo $CONTRACT_NAME
-```
-
-The next command will call the contract's `set_status` method:
-
-```bash
-near call $CONTRACT_NAME set_status '{"message": "aloha!"}' --accountId $CONTRACT_NAME
-```
-
-To retrieve the message from the contract, call `get_status` with the following:
-
-```bash
-near view $CONTRACT_NAME get_status '{"account_id": "'$CONTRACT_NAME'"}'
-```
-
-### Standard deploy
-In this option, the smart contract will get deployed to a specific account created with the NEAR Wallet.
-
-If you do not have a NEAR account, please create one with [NEAR Wallet](https://wallet.testnet.near.org).
-
-Make sure you have credentials saved locally for the account you want to deploy the contract to. To perform this run the following `near-cli` command:
-
-```
-near login
-```
-
-Deploy the contract:
-
-```bash
-near deploy --wasmFile res/nft_prototype.wasm --accountId YOUR_ACCOUNT_NAME
-```
-
-Set a status for your account:
-
-```bash
-near call YOUR_ACCOUNT_NAME set_status '{"message": "aloha friend"}' --accountId YOUR_ACCOUNT_NAME
-```
-
-Get the status:
-
-```bash
-near view YOUR_ACCOUNT_NAME get_status '{"account_id": "YOUR_ACCOUNT_NAME"}'
-```
-
-Note that these status messages are stored per account in a `HashMap`. See `src/lib.rs` for the code. We can try the same steps with another account to verify.
-**Note**: we're adding `NEW_ACCOUNT_NAME` for the next couple steps.
-
-There are two ways to create a new account:
- - the NEAR Wallet (as we did before)
- - `near create_account NEW_ACCOUNT_NAME --masterAccount YOUR_ACCOUNT_NAME`
-
-Now call the contract on the first account (where it's deployed):
-
-```bash
-near call YOUR_ACCOUNT_NAME set_status '{"message": "bonjour"}' --accountId NEW_ACCOUNT_NAME
-```
-
-```bash
-near view YOUR_ACCOUNT_NAME get_status '{"account_id": "NEW_ACCOUNT_NAME"}'
-```
-
-Returns `bonjour`.
-
-Make sure the original status remains:
-
-```bash
-near view YOUR_ACCOUNT_NAME get_status '{"account_id": "YOUR_ACCOUNT_NAME"}'
-```
+If all is successful the app should be live at a location specified in the console, usually `http://localhost:1234`.
 
 ## Testing
 To test run:

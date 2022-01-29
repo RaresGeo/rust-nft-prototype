@@ -1,48 +1,58 @@
 import "regenerator-runtime/runtime";
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import Big from "big.js";
-import Form from "./components/Form";
+import Navbar from "./components/Navbar";
+import Tokens from "./components/Tokens";
+import { v4 as uuidv4 } from "uuid";
 
 const BOATLOAD_OF_GAS = Big(3)
   .times(10 ** 13)
   .toFixed();
 
+const MINTING_PRICE = Big(1)
+  .times(10 ** 23) // One yNEAR is 10 ** 24 yoctoNEAR
+  .toFixed();
+
 const App = ({ contract, currentUser, nearConfig, wallet }) => {
-  const [status, setStatus] = useState(null);
+  const [ownedTokens, setOwnedTokens] = useState(null);
+
+  const updateTokens = async () => {
+    const tokens = await contract.nft_tokens_for_owner({
+      account_id: currentUser.accountId,
+      limit: 100,
+    });
+
+    let modifiedTokens = tokens.map((token) => {
+      return {
+        ...token.metadata,
+        token_id: token.token_id,
+      };
+    });
+
+    console.log(modifiedTokens);
+
+    setOwnedTokens(modifiedTokens);
+  };
 
   useEffect(async () => {
     if (currentUser) {
-      const status = await contract.nft_metadata();
-      console.log(status);
-
-      // setStatus(status);
+      updateTokens();
     }
-  }, []);
+  }, [currentUser]);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-
-    const { fieldset, message } = event.target.elements;
-    fieldset.disabled = true;
-
-    await contract.set_status(
+  const onMint = async () => {
+    let token_id = `token-${uuidv4()}`;
+    console.log(token_id);
+    await contract.nft_mint(
       {
-        message: message.value,
-        account_id: currentUser.accountId,
+        token_id,
+        receiver_id: currentUser.accountId,
       },
-      BOATLOAD_OF_GAS
+      BOATLOAD_OF_GAS,
+      MINTING_PRICE // This represents the amount of NEAR paid for minting the token.
     );
 
-    const status = await contract.get_status({
-      account_id: currentUser.accountId,
-    });
-
-    setStatus(status);
-
-    message.value = "";
-    fieldset.disabled = false;
-    message.focus();
+    updateTokens();
   };
 
   const signIn = () => {
@@ -55,53 +65,12 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
   };
 
   return (
-    <main>
-      <header>
-        <h1>NEAR Status Message</h1>
+    <div className="w-full h-full overflow-hidden">
+      <Navbar onLogin={signIn} onLogout={signOut} onMint={onMint} currentUser={currentUser} />
 
-        {currentUser ? (
-          <p>
-            Currently signed in as: <code>{currentUser.accountId}</code>
-          </p>
-        ) : (
-          <p>Update or add a status message! Please login to continue.</p>
-        )}
-
-        {currentUser ? <button onClick={signOut}>Log out</button> : <button onClick={signIn}>Log in</button>}
-      </header>
-
-      {currentUser && <Form onSubmit={onSubmit} currentUser={currentUser} />}
-
-      {status ? (
-        <>
-          <p>Your current status:</p>
-          <p>
-            <code>{status}</code>
-          </p>
-        </>
-      ) : (
-        <p>No status message yet!</p>
-      )}
-    </main>
+      {ownedTokens && <Tokens ownedTokens={ownedTokens} />}
+    </div>
   );
-};
-
-App.propTypes = {
-  contract: PropTypes.shape({
-    nft_mint: PropTypes.func.isRequired,
-    nft_metadata: PropTypes.func.isRequired,
-  }).isRequired,
-  currentUser: PropTypes.shape({
-    accountId: PropTypes.string.isRequired,
-    balance: PropTypes.string.isRequired,
-  }),
-  nearConfig: PropTypes.shape({
-    contractName: PropTypes.string.isRequired,
-  }).isRequired,
-  wallet: PropTypes.shape({
-    requestSignIn: PropTypes.func.isRequired,
-    signOut: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default App;

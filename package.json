@@ -5,7 +5,7 @@
   "scripts": {
     "build": "cargo build --target wasm32-unknown-unknown --release",
     "build:web": "parcel build ./frontend/index.html --public-url ./ --no-minify",
-    "deploy:dev": "npm run build && near dev-deploy res/nft_prototype.wasm",
+    "deploy:dev": "npm run build && rm -rf ./neardev && near dev-deploy res/nft_prototype.wasm",
     "init": ". neardev/dev-account.env && near call $CONTRACT_NAME new_default_meta '{\"owner_id\": \"'$CONTRACT_NAME'\"}' --accountId $CONTRACT_NAME",
     "dev": "npm run deploy:dev && npm run init && npm start",
     "start": "npm run build && npm run build:web && env-cmd -f ./neardev/dev-account.env parcel ./frontend/index.html",
@@ -28,14 +28,18 @@
   },
   "homepage": "https://github.com/near-examples/rust-status-message#readme",
   "dependencies": {
+    "@tailwindcss/postcss7-compat": "^2.2.17",
+    "autoprefixer": "^9.8.8",
     "big.js": "^5.2.2",
     "borsh": "^0.4.0",
     "env-cmd": "^10.1.0",
     "near-api-js": "^0.43.1",
+    "postcss": "^7.0.39",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "regenerator-runtime": "^0.13.9"
+    "regenerator-runtime": "^0.13.9",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
@@ -44,7 +48,6 @@
     "cssnano": "^5.0.7",
     "gh-pages": "^3.1.0",
     "parcel-bundler": "^1.12.5",
-    "postcss": "^8.3.6",
     "sass": "^1.37.0"
   },
   "resolutions": {
