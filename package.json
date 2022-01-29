@@ -5,10 +5,11 @@
   "scripts": {
     "build": "cargo build --target wasm32-unknown-unknown --release",
     "build:web": "parcel build ./frontend/index.html --public-url ./ --no-minify",
-    "deploy:dev": "npm run build && near dev-deploy res/status_message.wasm",
-    "dev": "npm run deploy:dev && npm start",
+    "deploy:dev": "npm run build && near dev-deploy res/nft_prototype.wasm",
+    "init": ". neardev/dev-account.env && near call $CONTRACT_NAME new_default_meta '{\"owner_id\": \"'$CONTRACT_NAME'\"}' --accountId $CONTRACT_NAME",
+    "dev": "npm run deploy:dev && npm run init && npm start",
     "start": "npm run build && npm run build:web && env-cmd -f ./neardev/dev-account.env parcel ./frontend/index.html",
-    "postbuild": "cp target/wasm32-unknown-unknown/release/status_message.wasm ./res/"
+    "postbuild": "cp target/wasm32-unknown-unknown/release/nft_prototype.wasm ./res/"
   },
   "repository": {
     "type": "git",

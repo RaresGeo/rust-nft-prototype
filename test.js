@@ -70,7 +70,7 @@ async function createContractUser(
 }
 
 async function initTest() {
-  const contract = await fs.readFile("./res/status_message.wasm");
+  const contract = await fs.readFile("./res/nft_prototype.wasm");
   const _contractAccount = await masterAccount.createAndDeployContract(
     config.contractAccount,
     pubKey,

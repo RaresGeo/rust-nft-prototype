@@ -9,7 +9,7 @@ const workspace = Workspace.init(async ({root}) => {
     'status-message',
     // Relative path (from package.json location) to the compiled contract file
     // which will be deployed to this account
-    '../res/status_message.wasm',
+    '../res/nft_prototype.wasm',
   );
 
   return {alice, contract};

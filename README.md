@@ -87,7 +87,7 @@ near login
 Deploy the contract to your NEAR account:
 
 ```bash
-near deploy --wasmFile res/status_message.wasm --accountId YOUR_ACCOUNT_NAME
+near deploy --wasmFile res/nft_prototype.wasm --accountId YOUR_ACCOUNT_NAME
 ```
 
 Build the frontend:
@@ -102,7 +102,7 @@ If all is successful the app should be live at `localhost:1234`!
 Build and deploy this smart contract to an development account. This development account will be created automatically and is not intended to be permanent. Please see the "Standard deploy" section for creating a more personalized account to deploy to.
 
 ```bash
-near dev-deploy --wasmFile res/status_message.wasm --helperUrl https://near-contract-helper.onrender.com
+near dev-deploy --wasmFile res/nft_prototype.wasm --helperUrl https://near-contract-helper.onrender.com
 ```
 
 Behind the scenes, this is creating an account and deploying a contract to it. On the console, notice a message like:
@@ -147,7 +147,7 @@ near login
 Deploy the contract:
 
 ```bash
-near deploy --wasmFile res/status_message.wasm --accountId YOUR_ACCOUNT_NAME
+near deploy --wasmFile res/nft_prototype.wasm --accountId YOUR_ACCOUNT_NAME
 ```
 
 Set a status for your account:

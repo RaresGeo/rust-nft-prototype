@@ -1,8 +1,9 @@
 [package]
-name = "status-message"
+name = "nft-prototype"
 version = "0.1.0"
-authors = ["Near Inc <hello@nearprotocol.com>"]
-edition = "2018"
+authors = ["Rares Georgescu"]
+# For some reason this all errors out when I put in 2022
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -11,6 +12,7 @@ crate-type = ["cdylib", "rlib"]
 serde = { version = "*", features = ["derive"] }
 serde_json = "*"
 near-sdk = "3.1.0"
+near-contract-standards = "3.1.1"
 
 [profile.release]
 codegen-units = 1

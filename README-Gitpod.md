@@ -20,7 +20,7 @@ near login
 Deploy the contract to your NEAR account:
 
 ```bash
-near deploy --wasmFile res/status_message.wasm --accountId YOUR_ACCOUNT_NAME
+near deploy --wasmFile res/nft_prototype.wasm --accountId YOUR_ACCOUNT_NAME
 ```
 
 Build the frontend:
