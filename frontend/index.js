@@ -29,7 +29,7 @@ async function initContract() {
   // Initializing our contract APIs by contract name and configuration
   const contract = await new nearAPI.Contract(walletConnection.account(), nearConfig.contractName, {
     // View methods are read-only – they don't modify the state, but usually return some value
-    viewMethods: ["nft_metadata", "nft_tokens_for_owner"],
+    viewMethods: ["nft_metadata", "nft_tokens_for_owner", "nft_tokens"],
     // Change methods can modify the state, but you don't receive the returned value when called
     changeMethods: ["nft_mint"],
     // Sender is the account ID to initialize transactions.

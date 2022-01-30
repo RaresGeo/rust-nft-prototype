@@ -1,14 +1,17 @@
 use crate::*;
+use near_sdk::serde::Serialize;
+use serde_json::json;
 
+#[derive(Serialize)]
 struct Extra {
-    background: u128,
-    face: u128,
-    hair: u128,
-    eyes: u128,
-    nose: u128,
-    mouth: u128,
-    glasses: u128,
-    beard: u128,
+    background: String,
+    face: String,
+    hair: String,
+    eyes: String,
+    nose: String,
+    mouth: String,
+    glasses: String,
+    beard: String,
 }
 
 trait ExtraToString {
@@ -67,27 +70,37 @@ fn random_u128_sequence(previous_rand: &mut u128) -> u128 {
     result
 }
 
+fn wrap_u128_to_string(val: u128, upper_bound: u128) -> String {
+    format!("{}", val % upper_bound)
+}
+
 impl ExtraToString for Extra {
     fn new() -> Self {
         let mut previous_rand: u128 = 0;
 
         Self {
-            background: random_u128_sequence(&mut previous_rand) % 169,
-            face: random_u128_sequence(&mut previous_rand) % 169,
-            hair: random_u128_sequence(&mut previous_rand) % 169,
-            eyes: random_u128_sequence(&mut previous_rand) % 169,
-            nose: random_u128_sequence(&mut previous_rand) % 169,
-            mouth: random_u128_sequence(&mut previous_rand) % 169,
-            glasses: random_u128_sequence(&mut previous_rand) % 169,
-            beard: random_u128_sequence(&mut previous_rand) % 169,
+            background: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            face: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            hair: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            eyes: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            nose: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            mouth: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            glasses: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            beard: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
         }
     }
 
     fn convert_to_string(&self) -> String {
-        format!(
+        // serde_json fails on u128 but works with a String representing a u128.
+        // This is all grossly inefficient.
+        let json = json!(&self);
+        json.to_string()
+
+        // Previous mundane implementation
+        /* format!(
             "{{\"background\": {}, \"face\": {}, \"hair\": {}, \"eyes\": {}, \"nose\": {}, \"mouth\": {}, \"glasses\": {}, \"beard\": {}}}",
             self.background, self.face, self.hair, self.eyes, self.nose, self.mouth, self.glasses, self.beard
-        )
+        ) */
     }
 }
 

@@ -9,7 +9,8 @@
     "init": ". neardev/dev-account.env && near call $CONTRACT_NAME new_default_meta '{\"owner_id\": \"'$CONTRACT_NAME'\"}' --accountId $CONTRACT_NAME",
     "dev": "npm run deploy:dev && npm run init && npm start",
     "start": "npm run build && npm run build:web && env-cmd -f ./neardev/dev-account.env parcel ./frontend/index.html",
-    "postbuild": "cp target/wasm32-unknown-unknown/release/nft_prototype.wasm ./res/"
+    "postbuild": "cp target/wasm32-unknown-unknown/release/nft_prototype.wasm ./res/",
+    "nft_mint": ". neardev/dev-account.env && near call $CONTRACT_NAME nft_mint '{\"token_id\": \"token-0\",\"receiver_id\": \"'$CONTRACT_NAME'\"}' --accountId $CONTRACT_NAME --deposit 0.1"
   },
   "repository": {
     "type": "git",
