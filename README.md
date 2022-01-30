@@ -8,6 +8,13 @@ I wouldn't consider it a triviality but it certainly didn't excite me, I would h
 
 Having said all of that, this barely scratches the surface and there was a lot I could have expanded on... but most of that would have hardly been near specific, simply front end stuff and other visualisation tools or ways of actually creating an NFT rather than displaying metadata.
 
+Documentation used:
+https://docs.near.org/docs/tutorials/contracts/nfts/introduction
+Examples followed:
+https://github.com/near-examples
+NEAR Discord where I spent some times and participated in the daily office hours, getting answers to my questions directly from the developers.
+http://near.chat 
+
 Enough of the excuses, here's how to build the project:
 
 Windows users: please visit the [Windows-specific README file](README-Windows.md).
