@@ -23,8 +23,8 @@ export default function Tokens({ tokens, pagination, children }) {
       <div className="flex items-center space-x-2 mb-4">
         <div
           onClick={onPrevious}
-          className={`flex items-center px-4 py-2 text-gray-800 bg-gray-600 rounded-md ${
-            previousOn && !disabled ? "hover:bg-blue-400 hover:text-white cursor-pointer" : "hover:bg-gray-400"
+          className={`flex items-center px-4 py-2 bg-gray-600 rounded-md ${
+            previousOn && !disabled ? "hover:bg-blue-700 text-white cursor-pointer font-bold bg-gray-600" : "text-gray-800 bg-gray-500 font-light"
           }`}
         >
           Previous
@@ -32,8 +32,8 @@ export default function Tokens({ tokens, pagination, children }) {
         <div className="px-4 py-2 mx-4 text-gray-700 bg-gray-500 rounded-md">{pagination.page}</div>
         <div
           onClick={onNext}
-          className={`flex items-center px-4 py-2 text-gray-800 bg-gray-600 rounded-md ${
-            nextOn && !disabled ? "hover:bg-blue-400 hover:text-white cursor-pointer" : "hover:bg-gray-400"
+          className={`flex items-center px-4 py-2 bg-gray-700 rounded-md ${
+            nextOn && !disabled ? "hover:bg-blue-700 text-white cursor-pointer font-bold bg-gray-600" : "text-gray-800 bg-gray-500 font-light"
           }`}
         >
           Next
