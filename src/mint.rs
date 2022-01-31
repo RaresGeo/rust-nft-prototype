@@ -79,14 +79,14 @@ impl ExtraToString for Extra {
         let mut previous_rand: u128 = 0;
 
         Self {
-            background: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 256),
-            face: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 256),
-            hair: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 256),
-            eyes: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 256),
-            nose: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 256),
-            mouth: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 256),
-            glasses: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 256),
-            beard: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 256),
+            background: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            face: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            hair: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            eyes: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            nose: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            mouth: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            glasses: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
+            beard: wrap_u128_to_string(random_u128_sequence(&mut previous_rand), 169),
         }
     }
 

@@ -20,6 +20,7 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
   const [allTokensPagination, setAllTokensPagination] = useState({ page: 0, limit: 3, disabled: false });
 
   const updateOwnedTokens = async () => {
+    if (!currentUser) return;
     const tokens = await contract.nft_tokens_for_owner({
       account_id: currentUser.accountId,
       from_index: (ownedTokensPagination.limit * ownedTokensPagination.page).toString(),
@@ -41,7 +42,6 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
 
   const updateAllTokens = async () => {
     const tokens = await contract.nft_tokens({
-      account_id: currentUser.accountId,
       from_index: (allTokensPagination.limit * allTokensPagination.page).toString(),
       limit: allTokensPagination.limit + 1,
     });
@@ -92,9 +92,7 @@ const App = ({ contract, currentUser, nearConfig, wallet }) => {
   }, [allTokensPagination.page]);
 
   useEffect(async () => {
-    if (currentUser) {
-      updateOwnedTokens();
-    }
+    updateOwnedTokens();
     updateAllTokens();
   }, [currentUser]);
 
