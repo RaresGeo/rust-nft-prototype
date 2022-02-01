@@ -1,0 +1,52 @@
+# name: GitHub Actions Demo
+# on: [push]
+# jobs:
+#   Explore-GitHub-Actions:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Setup node 16
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: 16.x
+#           cache: npm
+#       # Install near CLI
+#       - run: npm i -g near-cli
+#       # Install rust
+#       - run: curl https://sh.rustup.rs -sSf | sh && 1
+#       - run: npm install -g yarn
+#       - run: yarn
+#       - run: yarn dev
+
+
+name: Deployment
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      # - name: Install near
+        # run: yarn global near-cli
+      - name: Install Packages
+        run: yarn
+      # - name: Testing
+        # run: cargo test -- --nocapture
+      - name: Build page
+        run: yarn build:web
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./dist
